@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Calendar Rule Tests</title>
+    <script type="text/javascript" src="../../../../build/yui/yui.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="calendar"></div>
+
+<script type="text/javascript">
+        YUI({ base: "../../../../build/" }).use("calendar", function (Y) {
+            Y.CalendarBase.CONTENT_TEMPLATE = Y.CalendarBase.TWO_PANE_TEMPLATE;
+
+            var calendar = new Y.Calendar({
+                showPrevMonth: true,
+                showNextMonth: true,
+                width: "600px",
+                date: new Date()
+            });
+            
+            var rules = {
+                "2014": {
+                    "0": {
+                        "all": "days_with_events"
+                    }
+                }
+            };
+	    var filterFunction = function (date, node, rules) {
+            };
+            calendar.set("customRenderer", { rules: rules, filterFunction: filterFunction });
+            calendar.set("enabledDatesRule", "days_with_events");
+
+            calendar.render("#calendar");
+        });
+</script>
+</body>
+</html>
