@@ -10,30 +10,40 @@
 <div id="calendar"></div>
 
 <script type="text/javascript">
-        YUI({ base: "../../../../build/" }).use("calendar", function (Y) {
-            Y.CalendarBase.CONTENT_TEMPLATE = Y.CalendarBase.TWO_PANE_TEMPLATE;
-
-            var calendar = new Y.Calendar({
-                showPrevMonth: true,
-                showNextMonth: true,
-                width: "600px",
-                date: new Date()
-            });
-            
-            var rules = {
-                "2014": {
-                    "0": {
-                        "all": "days_with_events"
-                    }
-                }
-            };
-	    var filterFunction = function (date, node, rules) {
-            };
-            calendar.set("customRenderer", { rules: rules, filterFunction: filterFunction });
-            calendar.set("enabledDatesRule", "days_with_events");
-
-            calendar.render("#calendar");
+    YUI({
+        base: "../../../../build/",
+        filter: "raw"
+    }).use("calendar", function (Y) {
+        Y.CalendarBase.CONTENT_TEMPLATE = Y.CalendarBase.TWO_PANE_TEMPLATE;
+        
+        var calendar = new Y.Calendar({
+            contentBox: "#calendar",
+            width: "600px",
+            showPrevMonth: true,
+            showNextMonth: true,
+            enabledDatesRule: "enabled_days",
+            date: new Date()
         });
+        
+        var rules = {
+            "2014": {
+                "0": "enabled_days"
+            }
+        };
+        calendar.set("customRenderer", {
+            rules: rules,
+            filterFunction: null
+        });
+
+        calendar.render();
+    });
+    
+    // Temprorally fix display issue in modern browsers (Chrome 31, IE 11, etc.)
+    YUI().use("node", function (Y) {
+        Y.all(".yui3-calendar-header").setStyle("box-sizing", "border-box")
+                                      .setStyle("min-width", "100%")/*
+                                      .setStyle("max-width", "100%")*/;
+    });
 </script>
 </body>
 </html>
